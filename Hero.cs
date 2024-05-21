@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ArenaGame.Enums;
 
 namespace ArenaGame
 {
@@ -14,48 +10,59 @@ namespace ArenaGame
         public double Armor { get; private set; }
         public double Strenght { get; private set; }
         public IWeapon Weapon { get; private set; }
+        public SpecialElement SpecialElement { get; private set; }
+
         public bool IsAlive
         {
             get
             {
-                return Health > 0;
+                return this.Health > 0;
             }
         }
 
-        public Hero(string name, double armor, double strenght, IWeapon weapon)
+        public Hero(string name, double armor, double strenght, IWeapon weapon, Enums.SpecialElement specialElement)
         {
-            Health = 100;
+            this.Health = 100;
 
-            Name = name;
-            Armor = armor;
-            Strenght = strenght;
-            Weapon = weapon;
+            this.Name = name;
+            this.Armor = armor;
+            this.Strenght = strenght;
+            this.Weapon = weapon;
+            this.SpecialElement = specialElement;
         }
 
 
         // returns actual damage
         public virtual double Attack()
         {
-            double totalDamage = Strenght + Weapon.AttackDamage;
-            double coef = random.Next(80, 120 + 1);
+            double totalDamage = this.Strenght + this.Weapon.AttackDamage;
+            double coef = this.random.Next(80, 120 + 1);
             double realDamage = totalDamage * (coef / 100);
             return realDamage;
         }
 
+        public virtual double Defend(double damage, SpecialElement specialElement)
+        {
+            if (this.SpecialElement == specialElement)
+                return this.Defend(damage * 2);
+
+            return this.Defend(damage);
+        }
+
         public virtual double Defend(double damage)
         {
-            double coef = random.Next(80, 120 + 1);
-            double defendPower = (Armor + Weapon.BlockingPower) * (coef / 100);
+            double coef = this.random.Next(80, 120 + 1);
+            double defendPower = (this.Armor + this.Weapon.BlockingPower) * (coef / 100);
             double realDamage = damage - defendPower;
             if (realDamage < 0)
                 realDamage = 0;
-            Health -= realDamage;
+            this.Health -= realDamage;
             return realDamage;
         }
 
         public override string ToString()
         {
-            return $"{Name} with health {Math.Round(Health,2)}";
+            return $"{this.Name} with health {Math.Round(this.Health, 2)}";
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArenaGame.Weapons
+﻿namespace ArenaGame.Weapons
 {
     public class Dagger : IWeapon
     {
@@ -16,9 +10,9 @@ namespace ArenaGame.Weapons
 
         public Dagger(string name)
         {
-            Name = name;
-            AttackDamage = 30;
-            BlockingPower = 1;
+            this.Name = name;
+            this.AttackDamage = 30;
+            this.BlockingPower = 1;
         }
     }
 }

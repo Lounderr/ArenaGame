@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArenaGame.Heroes
+﻿namespace ArenaGame.Heroes
 {
     public class Assassin : Hero
     {
-        public Assassin(string name, double armor, double strenght, IWeapon weapon) : 
-            base(name, armor, strenght, weapon)
+        public Assassin(string name, double armor, double strenght, IWeapon weapon, Enums.SpecialElement specialElement) :
+            base(name, armor, strenght, weapon, specialElement)
         {
         }
 
@@ -17,7 +11,7 @@ namespace ArenaGame.Heroes
         {
             double damage = base.Attack();
 
-            double probability = random.NextDouble();
+            double probability = this.random.NextDouble();
             if (probability < 0.10)
             {
                 damage *= 3;

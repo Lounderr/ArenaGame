@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArenaGame
+﻿namespace ArenaGame
 {
     public class GameEngine
     {
@@ -28,39 +22,45 @@ namespace ArenaGame
             Hero attacker;
             Hero defender;
 
-            double probability = random.NextDouble();
+            double probability = this.random.NextDouble();
             if (probability < 0.5)
             {
-                attacker = HeroA;
-                defender = HeroB;
-            } else
+                attacker = this.HeroA;
+                defender = this.HeroB;
+            }
+            else
             {
-                attacker = HeroB;
-                defender = HeroA;
+                attacker = this.HeroB;
+                defender = this.HeroA;
             }
 
             while (attacker.IsAlive)
             {
                 double attack = attacker.Attack();
-                double actualDamage = defender.Defend(attack);
+                double actualDamage;
 
-                if (NotificationsCallBack != null)
+                if (attacker.Weapon is ISpecial)
+                    actualDamage = defender.Defend(attack, ((ISpecial)attacker.Weapon).SpecialElement);
+                else
+                    actualDamage = defender.Defend(attack);
+
+                if (this.NotificationsCallBack != null)
                 {
 
-                    NotificationsCallBack(new NotificationArgs()
+                    this.NotificationsCallBack(new NotificationArgs()
                     {
                         Attacker = attacker,
                         Defender = defender,
                         Attack = attack,
                         Damage = actualDamage
-                    }); 
+                    });
                 }
 
                 Hero tempHero = attacker;
                 attacker = defender;
                 defender = tempHero;
             }
-            Winner = defender;
+            this.Winner = defender;
         }
     }
 }
